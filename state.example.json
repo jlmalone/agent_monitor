@@ -1,0 +1,30 @@
+{
+  "agent": "EXAMPLE",
+  "status": "active",
+  "currentAssignment": "Processing batch #42",
+  "startedAt": "2026-02-02T10:00:00Z",
+  "lastUpdate": "2026-02-02T10:30:00Z",
+  "workspace": "~/projects/example",
+  "port": 3000,
+  "branch": "feature/new-feature",
+  "progress": [
+    {
+      "timestamp": "2026-02-02T10:30:00Z",
+      "action": "Completed step 3 of 5",
+      "status": "completed"
+    },
+    {
+      "timestamp": "2026-02-02T10:15:00Z",
+      "action": "Started processing batch",
+      "status": "completed"
+    }
+  ],
+  "questions": [
+    {
+      "id": "q-001",
+      "text": "Should I proceed with the destructive operation?",
+      "askedAt": "2026-02-02T10:25:00Z",
+      "isPending": true
+    }
+  ]
+}

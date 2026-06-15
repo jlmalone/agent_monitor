@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>com.agentmonitor.clawdbot-watchdog</string>
+
+    <key>Comment</key>
+    <string>Clawdbot Watchdog - Monitors and resurrects clawdbot when down</string>
+
+    <key>ProgramArguments</key>
+    <array>
+      <string>{SCRIPT_PATH}</string>
+    </array>
+
+    <!-- Run every 5 minutes (300 seconds) -->
+    <key>StartInterval</key>
+    <integer>300</integer>
+
+    <!-- Run at system load (startup) -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Don't keep alive - just run periodically -->
+    <key>KeepAlive</key>
+    <false/>
+
+    <!-- Working Directory -->
+    <key>WorkingDirectory</key>
+    <string>{HOME}</string>
+
+    <!-- Logging -->
+    <key>StandardOutPath</key>
+    <string>{LOG_PATH}</string>
+    <key>StandardErrorPath</key>
+    <string>{ERROR_LOG_PATH}</string>
+
+    <!-- Environment Variables -->
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>HOME</key>
+      <string>{HOME}</string>
+
+      <!-- Include paths for gtimeout (coreutils) and clawdbot -->
+      <key>PATH</key>
+      <string>{PATH}</string>
+    </dict>
+  </dict>
+</plist>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Monitor - AI Agent Fleet Management for macOS</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --text: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --success: #3fb950;
+            --border: #30363d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 4rem 0;
+        }
+
+        .feature {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .quickstart {
+            background: var(--card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .quickstart h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .quickstart h3 {
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent);
+        }
+
+        pre {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'SF Mono', Menlo, Monaco, monospace;
+            color: var(--success);
+        }
+
+        .steps {
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .steps li {
+            counter-increment: step;
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .steps li::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin: 0.25rem;
+        }
+
+        .badges {
+            margin-top: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .status-colors {
+            margin: 1rem 0;
+        }
+
+        .status-colors span {
+            margin-right: 1rem;
+        }
+
+        .screenshot-container {
+            margin: 2rem auto;
+            max-width: 400px;
+        }
+
+        .screenshot-container img {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+        }
+
+        .screenshot-caption {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🕵️</div>
+            <h1>Agent Monitor</h1>
+            <p class="tagline">Monitor and control your AI agent fleet from the menu bar</p>
+
+            <div class="cta-buttons">
+                <a href="https://github.com/jlmalone/agent_monitor/releases/latest" class="btn btn-primary">
+                    ⬇️ Download DMG
+                </a>
+                <a href="https://github.com/jlmalone/agent_monitor" class="btn btn-secondary">
+                    📂 View on GitHub
+                </a>
+            </div>
+
+            <div class="badges">
+                <span class="badge">macOS 13+</span>
+                <span class="badge">Node.js 18+</span>
+                <span class="badge">MIT License</span>
+            </div>
+
+            <div class="screenshot-container">
+                <img src="screenshot.png" alt="Agent Monitor menu bar showing fleet status">
+                <p class="screenshot-caption">Real-time fleet monitoring from your menu bar</p>
+            </div>
+        </header>
+
+        <section class="features">
+            <div class="feature">
+                <div class="feature-icon">🖥️</div>
+                <h3>Menu Bar App</h3>
+                <p>Native SwiftUI app in your menu bar. Real-time status indicators show agent health at a glance.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>CLI Tool (am)</h3>
+                <p>Command-line interface for automation. List agents, send instructions, check status with simple commands.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <h3>Engagement Metrics</h3>
+                <p>Track agent activity with engagement percentages, token velocity, and progress history.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🛡️</div>
+                <h3>Watchdog Service</h3>
+                <p>Auto-resurrection via launchd. If agents go down, the watchdog brings them back automatically.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🚨</div>
+                <h3>Intelligent Escalation</h3>
+                <p>Detect when agents need human attention. Question handling and instruction system built-in.</p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">🔌</div>
+                <h3>Clawdbot Integration</h3>
+                <p>Designed to work with Clawdbot agent framework. Monitor your entire AI agent fleet from one place.</p>
+            </div>
+        </section>
+
+        <section class="quickstart">
+            <h2>⚡ Quick Start</h2>
+
+            <h3>GUI Installation</h3>
+            <ol class="steps">
+                <li>Download the DMG above</li>
+                <li>Drag Agent Monitor to Applications</li>
+                <li>Launch and configure your agents in <code>~/clawd/agent-registry.json</code></li>
+            </ol>
+
+            <h3>CLI Installation</h3>
+            <pre><code># Clone the repository
+git clone https://github.com/jlmalone/agent_monitor.git
+cd agent_monitor/cli
+
+# Install and link
+npm install
+npm link
+
+# Start using
+am list
+am quickreport myagent "Working on task X"
+am status myagent</code></pre>
+        </section>
+
+        <section class="quickstart">
+            <h2>📋 CLI Commands</h2>
+            <pre><code>am list                           # List all agents with status
+am ls                             # Alias for list
+am status &lt;alias&gt;                 # Detailed status for one agent
+am quickreport &lt;alias&gt; "message"  # Update agent status (fast, atomic)
+am instruct &lt;alias&gt; "message"     # Send instruction to agent
+am answer &lt;alias&gt; &lt;qid&gt; "text"    # Answer a pending question
+am logs &lt;alias&gt;                   # View progress history</code></pre>
+
+            <h3>Status Colors</h3>
+            <table>
+                <tr>
+                    <th>Status</th>
+                    <th>Color</th>
+                    <th>Meaning</th>
+                </tr>
+                <tr>
+                    <td>Active</td>
+                    <td>🟢 Green</td>
+                    <td>Working, recent activity (&lt;10min)</td>
+                </tr>
+                <tr>
+                    <td>Idle</td>
+                    <td>🟡 Yellow</td>
+                    <td>Running but no activity &gt;10min</td>
+                </tr>
+                <tr>
+                    <td>Blocked</td>
+                    <td>🟠 Orange</td>
+                    <td>Has unanswered questions</td>
+                </tr>
+                <tr>
+                    <td>Completed</td>
+                    <td>🔵 Blue</td>
+                    <td>All tasks done, awaiting instructions</td>
+                </tr>
+                <tr>
+                    <td>Error</td>
+                    <td>🔴 Red</td>
+                    <td>Session crashed/errored</td>
+                </tr>
+                <tr>
+                    <td>Offline</td>
+                    <td>⚪ Gray</td>
+                    <td>No session found</td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="quickstart">
+            <h2>🔧 Configuration</h2>
+
+            <h3>Agent Registry</h3>
+            <p>Create <code>~/clawd/agent-registry.json</code>:</p>
+            <pre><code>{
+  "version": "1.0.0",
+  "agents": [
+    {
+      "id": "unique-id",
+      "alias": "myagent",
+      "persona": "Description of agent role",
+      "mandate": "What this agent does",
+      "workDir": "~/projects/myproject",
+      "enabled": true
+    }
+  ]
+}</code></pre>
+
+            <h3>Agent State Files</h3>
+            <p>Agents write state to <code>~/clawd/agents/&lt;alias&gt;/state.json</code></p>
+            <pre><code>{
+  "agent": "MYAGENT",
+  "alias": "myagent",
+  "status": "active",
+  "currentAssignment": "Working on task X",
+  "lastActivity": 1706886000000,
+  "progress": ["Step 1", "Step 2"],
+  "questions": []
+}</code></pre>
+        </section>
+
+        <section class="quickstart">
+            <h2>📖 Integration</h2>
+            <p>Agent Monitor is designed to integrate with AI agent frameworks. See the <a href="https://github.com/jlmalone/agent_monitor/blob/master/INTEGRATION.md">Integration Guide</a> for:</p>
+            <ul style="margin-left: 1.5rem; margin-top: 0.5rem; color: var(--text-muted);">
+                <li>Clawdbot integration patterns</li>
+                <li>Watchdog setup and configuration</li>
+                <li>Agent protocol specification</li>
+                <li>State file format details</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>
+                MIT License<br>
+                <a href="https://github.com/jlmalone/agent_monitor">GitHub</a> ·
+                <a href="https://github.com/jlmalone/agent_monitor/issues">Issues</a> ·
+                <a href="https://github.com/jlmalone/agent_monitor/blob/master/LICENSE">License</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
