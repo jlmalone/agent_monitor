@@ -1,7 +1,8 @@
-<!-- ATTRIBUTION-GUARD:v1 -->
-> ⛔ **NO ATTRIBUTION (non-negotiable).** Never write authorship or credit of any kind into commits, PRs, code, or docs: no `Co-Authored-By`, no AI / model / agent name, no `🤖 Generated with…`, no `Author:` / `Prepared by:` / `Reviewed by:`. Say nothing about attribution at all. If this repo already contains any, flag it. Full rule: top of `~/AI.md`.
+# AI.md
 
-# CLAUDE.md — Agent Monitor
+Optional protocol reference. Follow [AGENTS.md](AGENTS.md) first.
+
+# Agent Monitor protocol
 
 This file is the operational spec for Agent Monitor CLI + app integration.
 
@@ -31,11 +32,6 @@ This file is the operational spec for Agent Monitor CLI + app integration.
 - Integration test script: `cli/test/integration-test.sh`
 - Run it after changes; it validates quickreport and state update behavior
 - Verify menu bar / app UI shows updated activity and progress (when app is running)
-
-## DELIVERABLES
-- Committed changes in this repository
-- New DMG at `dist/AgentMonitor.dmg`
-- Short report summary + next steps
 
 ## REFERENCE
 - CLI code: `cli/`
